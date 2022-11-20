@@ -1,17 +1,16 @@
+import { ChakraProvider } from '@chakra-ui/react';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 
-function CustomApp({ Component, pageProps }: AppProps) {
+function EventsApp({ Component, pageProps }: AppProps) {
   return (
-    <>
+    <ChakraProvider>
       <Head>
-        <title>Welcome to admin-dash!</title>
+        <title>Events App | Admin Dashboard</title>
       </Head>
-      <main className="app">
-        <Component {...pageProps} />
-      </main>
-    </>
+      <Component {...pageProps} />
+    </ChakraProvider>
   );
 }
 
-export default CustomApp;
+export default EventsApp;
