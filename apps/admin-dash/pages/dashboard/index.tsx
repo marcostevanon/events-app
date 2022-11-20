@@ -1,4 +1,4 @@
-import { Button, Flex, Text } from '@chakra-ui/react';
+import { Button, Flex, Image, Text } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -23,9 +23,14 @@ export function Dashboard() {
     <Flex direction="column" align="center">
       <h1>Welcome to Dashboard!</h1>
       <Text fontSize="xl" display="block">
-        {user.email}
+        <Flex direction="column" alignItems="center">
+          <div>{user.displayName}</div>
+          <Image src={user.photoURL} alt="profilepic" />
+        </Flex>
       </Text>
-      <Button onClick={logout}>Log out</Button>
+      <Button onClick={logout} m="5">
+        Log out
+      </Button>
     </Flex>
   );
 }
