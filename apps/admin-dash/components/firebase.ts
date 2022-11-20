@@ -6,7 +6,13 @@ import {
   signInWithPopup,
   signOut,
 } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
+import {
+  collection,
+  getDocs,
+  getFirestore,
+  query,
+  where,
+} from 'firebase/firestore';
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -30,7 +36,19 @@ const googleProvider = new GoogleAuthProvider();
 
 export const signInWithGoogle = async () => {
   try {
-    await signInWithPopup(auth, googleProvider);
+    const res = await signInWithPopup(auth, googleProvider);
+    const user = res.user;
+    const q = query(collection(db, 'users'), where('email', '==', user.email));
+    const docs = await getDocs(q);
+    if (docs.docs.length === 0) {
+      throw new Error('Not Authorized');
+      // await addDoc(collection(db, 'users'), {
+      //   uid: user.uid,
+      //   name: user.displayName,
+      //   authProvider: 'google',
+      //   email: user.email,
+      // });
+    }
   } catch (err) {
     console.error(err);
     alert(err.message);
