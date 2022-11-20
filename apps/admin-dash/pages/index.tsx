@@ -12,7 +12,7 @@ export function Index() {
 
   React.useEffect(() => {
     if (user) {
-      router.push('/dashboard');
+      router.push('/channels');
     }
   }, [user, router]);
 

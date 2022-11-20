@@ -1,11 +1,21 @@
-import { Center } from '@chakra-ui/react';
-import GoogleButton from 'react-google-button';
+import { Button, Center, Text } from '@chakra-ui/react';
+import { FcGoogle } from 'react-icons/fc';
 import { signInWithGoogle } from '../../components/firebase';
 
 export function Login() {
   return (
-    <Center marginY="10">
-      <GoogleButton onClick={signInWithGoogle} />
+    <Center p={8}>
+      <Button
+        w="sm"
+        maxW="md"
+        variant="outline"
+        leftIcon={<FcGoogle />}
+        onClick={signInWithGoogle}
+      >
+        <Center>
+          <Text>Sign in with Google</Text>
+        </Center>
+      </Button>
     </Center>
   );
 }
