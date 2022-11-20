@@ -1,18 +1,30 @@
-import { Box } from '@chakra-ui/react';
-import Link from 'next/link';
-import styled from 'styled-components';
-
-const StyledPage = styled.h1``;
+import { Text } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
+import React from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from '../components/firebase';
+import FullpageLoading from '../components/fullpage-loading/fullpage-loading';
+import Login from '../components/login/login';
 
 export function Index() {
-  return (
-    <StyledPage>
-      <Box w="100%" h="200px" bgGradient="linear(to-t, green.200, pink.500)">
-        <div>Index!</div>
-        <Link href="/login">Go to login</Link>
-      </Box>
-    </StyledPage>
-  );
+  const router = useRouter();
+  const [user, loading, error] = useAuthState(auth);
+
+  React.useEffect(() => {
+    if (user) {
+      router.push('/dashboard');
+    }
+  }, [user, router]);
+
+  if (loading) {
+    return <FullpageLoading />;
+  }
+
+  if (error) {
+    return <Text fontSize="md">{error.message}</Text>;
+  }
+
+  return <Login />;
 }
 
 export default Index;
