@@ -6,6 +6,7 @@ export class CityTenant {
   telegramChatId: number;
   telegramChatLink: string;
   eventsCollection?: Event[];
+  subscriberCount?: number;
   createdAt: Date;
   updatedAt: Date;
 
@@ -22,5 +23,9 @@ export class CityTenant {
     const updatedAtDate = new Date(0);
     updatedAtDate.setUTCSeconds(args.updatedAt.seconds);
     this.updatedAt = updatedAtDate;
+  }
+
+  setSubscriberCount(subscriberCount: number) {
+    this.subscriberCount = subscriberCount;
   }
 }
