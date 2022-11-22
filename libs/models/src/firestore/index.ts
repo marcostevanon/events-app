@@ -1,3 +1,3 @@
-export * from './city-tenant.model';
+export * from './city.model';
 export * from './event.model';
 export * from './user.model';

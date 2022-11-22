@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
 
-import Cities from './cities';
+import Loading from './loading';
 
-describe('Cities', () => {
+describe('Loading', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<Cities />);
+    const { baseElement } = render(<Loading />);
     expect(baseElement).toBeTruthy();
   });
 });

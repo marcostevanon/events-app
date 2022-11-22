@@ -1,6 +1,6 @@
-import { CityTenantDTO } from '../admin/cityTenantDTO.model';
+import { CityDto } from '../admin/cityDto.model';
 
-export class CityTenant {
+export class City {
   id: string;
   cityName: string;
   telegramChatId: number;
@@ -10,7 +10,7 @@ export class CityTenant {
   createdAt: Date;
   updatedAt: Date;
 
-  constructor(args: CityTenantDTO) {
+  constructor(args: CityDto) {
     this.id = args.id;
     this.cityName = args.cityName;
     this.telegramChatId = args.telegramChatId;

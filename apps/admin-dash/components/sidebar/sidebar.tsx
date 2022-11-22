@@ -32,8 +32,8 @@ interface LinkItemProps {
   icon: IconType;
 }
 const LinkItems: Array<LinkItemProps> = [
-  { name: 'Cities', path: 'cities', icon: FaCity },
-  { name: 'Settings', path: 'settings', icon: FiSettings },
+  { name: 'Cities', path: '/cities', icon: FaCity },
+  { name: 'Settings', path: '/settings', icon: FiSettings },
 ];
 
 interface SidebarWithHeaderProps {
