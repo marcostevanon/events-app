@@ -4,6 +4,7 @@ import {
   BoxProps,
   Button,
   CloseButton,
+  Divider,
   Drawer,
   DrawerContent,
   Flex,
@@ -78,6 +79,10 @@ interface SidebarProps extends BoxProps {
 }
 
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
+  const { toggleColorMode } = useColorMode();
+
+  const colorModeText = useColorModeValue('Dark', 'Light');
+
   return (
     <Box
       transition="3s ease"
@@ -100,6 +105,25 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
           {link.name}
         </NavItem>
       ))}
+      <Divider marginY="1" />
+
+      <Flex
+        align="center"
+        p="4"
+        mx="4"
+        cursor="pointer"
+        onClick={toggleColorMode}
+        {...rest}
+      >
+        {/* <IconButton
+          onClick={toggleColorMode}
+          variant="ghost"
+          aria-label="change color mode"
+          icon={<CgDarkMode />}
+        /> */}
+        <Icon mr="4" fontSize="16" as={CgDarkMode} />
+        {colorModeText} Mode
+      </Flex>
     </Box>
   );
 };
@@ -110,6 +134,7 @@ interface NavItemProps extends FlexProps {
   children: React.ReactNode;
 }
 const NavItem = ({ icon, children, path, ...rest }: NavItemProps) => {
+  const iconColor = useColorModeValue('black', 'white');
   return (
     <Link
       href={path}
@@ -123,19 +148,14 @@ const NavItem = ({ icon, children, path, ...rest }: NavItemProps) => {
         borderRadius="lg"
         role="group"
         cursor="pointer"
-        _hover={{
-          bg: 'cyan.400',
-          color: 'white',
-        }}
+        _hover={{ bg: 'blackAlpha.100', color: iconColor }}
         {...rest}
       >
         {icon && (
           <Icon
             mr="4"
             fontSize="16"
-            _groupHover={{
-              color: 'white',
-            }}
+            _groupHover={{ color: iconColor }}
             as={icon}
           />
         )}
@@ -149,7 +169,6 @@ interface MobileProps extends FlexProps {
   onOpen: () => void;
 }
 const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
-  const { toggleColorMode } = useColorMode();
   const [user] = useAuthState(auth);
 
   return (
@@ -182,13 +201,6 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
       </Text>
 
       <HStack spacing={{ base: '0', md: '6' }}>
-        <IconButton
-          size="lg"
-          variant="ghost"
-          aria-label="open menu"
-          icon={<CgDarkMode />}
-          onClick={toggleColorMode}
-        />
         <Flex alignItems={'center'}>
           <HStack>
             <Avatar size={'sm'} src={user.photoURL} />

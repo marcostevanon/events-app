@@ -10,6 +10,7 @@ specifiers:
   '@nrwl/esbuild': ^15.2.1
   '@nrwl/eslint-plugin-nx': 15.2.1
   '@nrwl/jest': 15.2.1
+  '@nrwl/js': 15.2.1
   '@nrwl/linter': 15.2.1
   '@nrwl/next': 15.2.1
   '@nrwl/nx-cloud': latest
@@ -61,6 +62,7 @@ dependencies:
   '@chakra-ui/react': 2.4.1_5ufks5yctrfahx7thad4i6b3vq
   '@emotion/react': 11.10.5_2o4pyze4tsp6pgjjb27hrgw6vu
   '@emotion/styled': 11.10.5_ta3bisikcgbdt4yqmgd5fv32ly
+  '@nrwl/js': 15.2.1_fsqr2a4lvtqrqdc74epwtcts5a
   '@nrwl/next': 15.2.1_gppstpyt77dy6ekxtyflhayhnu
   core-js: 3.26.1
   firebase: 9.14.0

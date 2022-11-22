@@ -1,12 +1,14 @@
 import { getAnalytics } from 'firebase/analytics';
 import { initializeApp } from 'firebase/app';
 import {
+  connectAuthEmulator,
   getAuth,
   GoogleAuthProvider,
   signInWithPopup,
   signOut,
+  User,
 } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
+import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore';
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -25,14 +27,15 @@ if (typeof window !== 'undefined') {
 }
 
 export const db = getFirestore(app);
+// connectFirestoreEmulator(db, 'localhost', 8080);
 export const auth = getAuth(app);
+// connectAuthEmulator(auth, 'http://localhost:9099');
 const googleProvider = new GoogleAuthProvider();
 
-export const signInWithGoogle = async () => {
+export const signInWithGoogle = async (): Promise<User> => {
   try {
     const res = await signInWithPopup(auth, googleProvider);
-    const user = res.user;
-    console.log('signInWithGoogle ~ user', user);
+    return res.user;
   } catch (err) {
     console.error(err);
     alert(err.message);

@@ -33,6 +33,17 @@ const Dashboard = () => {
     if (currentPath && !matchCmp) router.push('channels');
   }, [currentPath, matchCmp, router]);
 
+  // const testDb = React.useCallback(async () => {
+  //   const docRef = doc(db, 'users', 's0CmiSQWw3ZtbsmAe0xP4nNSnr83');
+  //   const docSnap = await getDoc(docRef);
+
+  //   console.log('testDb ~ user', docSnap.data());
+  // }, []);
+
+  // React.useEffect(() => {
+  //   testDb().then();
+  // }, [testDb]);
+
   React.useEffect(() => {
     if (!loading && !user) {
       router.push('/');
