@@ -12,42 +12,30 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react';
-import { Channel } from '@events-app/models';
+import { CityTenant } from '@events-app/models';
+import { collection } from 'firebase/firestore';
+import { CityTenantDTO } from 'libs/models/src/admin/cityTenantDTO.model';
+import React from 'react';
+import { useCollection } from 'react-firebase-hooks/firestore';
 import { CgEye } from 'react-icons/cg';
+import { db } from '../firebase';
 
 export function Channels() {
-  // const events: Array<EventItem> = [
-  //   {
-  //     channelId: 'channels',
-  //     createdAt: new Date(),
-  //     createdBy: '',
-  //     dateTime: new Date(),
-  //     description: '',
-  //     id: '',
-  //     name: '',
-  //     organizer: '',
-  //     updatedAt: new Date(),
-  //   },
-  // ];
+  const [value, loading, error] = useCollection(collection(db, 'cities'));
+  console.log('Channels ~ error', error);
 
-  const channels: Array<Channel> = [
-    {
-      id: 'channel1',
-      name: 'Padova',
-      telegramChatId: 11111111111,
-      telegramChatLink: 'https://padova.t.me',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-    {
-      id: 'channel1',
-      name: 'Bologna',
-      telegramChatId: 22222222222,
-      telegramChatLink: 'https://bologna.t.me',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-  ];
+  const cities: CityTenant[] = React.useMemo(() => {
+    if (!value) {
+      return null;
+    }
+    const cityList: CityTenant[] = [];
+    value.forEach((a) => {
+      const city = new CityTenant({ id: a.id, ...(a.data() as CityTenantDTO) });
+      cityList.push(city);
+    });
+    return cityList;
+  }, [value]);
+  console.log('constcities:CityTenant[]=React.useMemo ~ cities', cities);
 
   return (
     <Container maxW="container.lg">
@@ -57,40 +45,49 @@ export function Channels() {
         </Text>
       </Flex>
 
-      <TableContainer whiteSpace="nowrap">
-        <Table variant="simple">
-          <Thead>
-            <Tr>
-              <Th></Th>
-              <Th>Channel Name</Th>
-              <Th>Telegram Link</Th>
-              <Th>Created At</Th>
-              <Th isNumeric>Subscriber Count</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {channels.map((ch) => (
-              <Tr key={ch.id}>
-                <Td py="0" px="2">
-                  <Link href={`channels/${ch.telegramChatId}`}>
-                    <IconButton icon={<CgEye />} aria-label="channel detail" />
-                  </Link>
-                </Td>
-                <Td>{ch.name}</Td>
-                <Td>
-                  <Text>
-                    <Link href={ch.telegramChatLink}>
-                      {ch.telegramChatLink}
-                    </Link>
-                  </Text>
-                </Td>
-                <Td>{new Date(ch.createdAt).toLocaleString()}</Td>
-                <Td isNumeric>{4.433}</Td>
+      {loading ? (
+        <div>loading...</div>
+      ) : (
+        <TableContainer whiteSpace="nowrap">
+          <Table variant="simple">
+            <Thead>
+              <Tr>
+                <Th></Th>
+                <Th>Channel Name</Th>
+                <Th>Channel Link</Th>
+                <Th>Created At</Th>
+                <Th isNumeric>Subscriber Count</Th>
               </Tr>
-            ))}
-          </Tbody>
-        </Table>
-      </TableContainer>
+            </Thead>
+            <Tbody>
+              {cities.map((city) => (
+                <Tr key={city.id}>
+                  <Td py="0" px="2">
+                    <Link href={`channels/${city.telegramChatId}`}>
+                      <IconButton
+                        icon={<CgEye />}
+                        aria-label="channel detail"
+                      />
+                    </Link>
+                  </Td>
+                  <Td>{city.cityName}</Td>
+                  <Td>
+                    <Text>
+                      <Link href={city.telegramChatLink}>
+                        {city.telegramChatLink}
+                      </Link>
+                    </Text>
+                  </Td>
+                  <Td>{new Date(city.createdAt).toLocaleString()}</Td>
+                  <Td isNumeric>
+                    {/* {Intl.NumberFormat('id').format(ch.subscriberCount)} */}
+                  </Td>
+                </Tr>
+              ))}
+            </Tbody>
+          </Table>
+        </TableContainer>
+      )}
     </Container>
   );
 }
