@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import React from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import Channels from '../../components/channels/channels';
+import Cities from '../../components/cities/cities';
 import { auth } from '../../components/firebase';
 import FullpageLoading from '../../components/fullpage-loading/fullpage-loading';
 import Settings from '../../components/settings/settings';
@@ -9,9 +9,9 @@ import SidebarWithHeader from '../../components/sidebar/sidebar';
 
 const routes = [
   {
-    slug: 'channels',
-    label: 'Channel List',
-    component: <Channels />,
+    slug: 'cities',
+    label: 'Cities',
+    component: <Cities />,
   },
   {
     slug: 'settings',
@@ -30,7 +30,7 @@ const Dashboard = () => {
   }, [currentPath]);
 
   React.useEffect(() => {
-    if (currentPath && !matchCmp) router.push('channels');
+    if (currentPath && !matchCmp) router.push('cities');
   }, [currentPath, matchCmp, router]);
 
   // const testDb = React.useCallback(async () => {

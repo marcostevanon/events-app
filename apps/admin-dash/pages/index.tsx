@@ -12,7 +12,7 @@ export function Index() {
 
   React.useEffect(() => {
     if (user) {
-      router.push('/channels');
+      router.push('/cities');
     }
   }, [user, router]);
 

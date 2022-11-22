@@ -21,8 +21,8 @@ import {
 } from '@chakra-ui/react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { IconType } from 'react-icons';
-import { BsTelegram } from 'react-icons/bs';
 import { CgDarkMode } from 'react-icons/cg';
+import { FaCity } from 'react-icons/fa';
 import { FiLogOut, FiMenu, FiSettings } from 'react-icons/fi';
 import { auth, logout } from '../firebase';
 
@@ -32,7 +32,7 @@ interface LinkItemProps {
   icon: IconType;
 }
 const LinkItems: Array<LinkItemProps> = [
-  { name: 'Channels', path: 'channels', icon: BsTelegram },
+  { name: 'Cities', path: 'cities', icon: FaCity },
   { name: 'Settings', path: 'settings', icon: FiSettings },
 ];
 

@@ -20,9 +20,9 @@ import { useCollection } from 'react-firebase-hooks/firestore';
 import { CgEye } from 'react-icons/cg';
 import { db } from '../firebase';
 
-export function Channels() {
+export function Cities() {
   const [value, loading, error] = useCollection(collection(db, 'cities'));
-  console.log('Channels ~ error', error);
+  console.log('Cities ~ error', error);
 
   const cities: CityTenant[] = React.useMemo(() => {
     if (!value) {
@@ -41,7 +41,7 @@ export function Channels() {
     <Container maxW="container.lg">
       <Flex>
         <Text fontSize="3xl" as="b" mb="5">
-          Channels
+          Cities
         </Text>
       </Flex>
 
@@ -53,8 +53,8 @@ export function Channels() {
             <Thead>
               <Tr>
                 <Th></Th>
-                <Th>Channel Name</Th>
-                <Th>Channel Link</Th>
+                <Th>City</Th>
+                <Th>City Telegram Channel</Th>
                 <Th>Created At</Th>
                 <Th isNumeric>Subscriber Count</Th>
               </Tr>
@@ -63,11 +63,8 @@ export function Channels() {
               {cities.map((city) => (
                 <Tr key={city.id}>
                   <Td py="0" px="2">
-                    <Link href={`channels/${city.telegramChatId}`}>
-                      <IconButton
-                        icon={<CgEye />}
-                        aria-label="channel detail"
-                      />
+                    <Link href={`cities/${city.telegramChatId}`}>
+                      <IconButton icon={<CgEye />} aria-label="city detail" />
                     </Link>
                   </Td>
                   <Td>{city.cityName}</Td>
@@ -92,4 +89,4 @@ export function Channels() {
   );
 }
 
-export default Channels;
+export default Cities;

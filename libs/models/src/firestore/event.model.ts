@@ -1,6 +1,6 @@
 export interface EventItem {
   id: string;
-  channelId: string;
+  cityId: string;
   name: string;
   organizer: string;
   dateTime: Date;

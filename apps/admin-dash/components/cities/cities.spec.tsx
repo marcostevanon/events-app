@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
 
-import Channels from './channels';
+import Cities from './cities';
 
-describe('Channels', () => {
+describe('Cities', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<Channels />);
+    const { baseElement } = render(<Cities />);
     expect(baseElement).toBeTruthy();
   });
 });
