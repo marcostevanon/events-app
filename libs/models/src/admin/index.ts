@@ -1,1 +1,1 @@
-export * from './channeDTO.model';
+export * from './cityTenantDTO.model';
