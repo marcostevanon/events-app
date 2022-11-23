@@ -4,6 +4,7 @@ import {
   BoxProps,
   Button,
   CloseButton,
+  Container,
   Divider,
   Drawer,
   DrawerContent,
@@ -19,7 +20,7 @@ import {
   useDisclosure,
   VStack,
 } from '@chakra-ui/react';
-import React, { memo } from 'react';
+import React from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { IconType } from 'react-icons';
 import { CgDarkMode } from 'react-icons/cg';
@@ -46,33 +47,35 @@ function Layout(props: LayoutProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
-      <SidebarContent
-        onClose={() => onClose}
-        display={{ base: 'none', md: 'block' }}
-      />
-      <Drawer
-        autoFocus={false}
-        isOpen={isOpen}
-        placement="left"
-        onClose={onClose}
-        returnFocusOnClose={false}
-        onOverlayClick={onClose}
-        size="full"
-      >
-        <DrawerContent>
-          <SidebarContent onClose={onClose} />
-        </DrawerContent>
-      </Drawer>
-      <MobileNav onOpen={onOpen} />
-      <Box ml={{ base: 0, md: 60 }} p="4">
-        {props.children}
+    <Container maxW="container.lg">
+      <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
+        <SidebarContent
+          onClose={() => onClose}
+          display={{ base: 'none', md: 'block' }}
+        />
+        <Drawer
+          autoFocus={false}
+          isOpen={isOpen}
+          placement="left"
+          onClose={onClose}
+          returnFocusOnClose={false}
+          onOverlayClick={onClose}
+          size="full"
+        >
+          <DrawerContent>
+            <SidebarContent onClose={onClose} />
+          </DrawerContent>
+        </Drawer>
+        <MobileNav onOpen={onOpen} />
+        <Box ml={{ base: 0, md: 60 }} p="4">
+          {props.children}
+        </Box>
       </Box>
-    </Box>
+    </Container>
   );
 }
 
-export default memo(Layout);
+export default Layout;
 
 interface SidebarProps extends BoxProps {
   onClose: () => void;

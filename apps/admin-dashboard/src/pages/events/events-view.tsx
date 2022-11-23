@@ -1,5 +1,4 @@
 import {
-  Container,
   Flex,
   IconButton,
   Table,
@@ -11,10 +10,10 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react';
+import React from 'react';
 import { CgEye } from 'react-icons/cg';
 import { MdOutlineKeyboardBackspace } from 'react-icons/md';
 import { useParams } from 'react-router-dom';
-import Layout from '../../app/layout/layout';
 import { Loading } from '../../app/loading/loading';
 import {
   useEventsController,
@@ -28,25 +27,23 @@ export default function Events() {
   const { navigateBack } = useNavigateBackToCities();
 
   return (
-    <Layout>
-      <Container maxW="container.lg">
-        <Flex>
-          <Text fontSize="3xl" as="b" mb="5">
-            <IconButton
-              onClick={navigateBack}
-              icon={<MdOutlineKeyboardBackspace />}
-              variant="ghost"
-              aria-label="event detail"
-              size="lg"
-              mr="2"
-            />
-            Events
-          </Text>
-        </Flex>
+    <React.Fragment>
+      <Flex>
+        <Text fontSize="3xl" as="b" mb="5">
+          <IconButton
+            onClick={navigateBack}
+            icon={<MdOutlineKeyboardBackspace />}
+            variant="ghost"
+            aria-label="event detail"
+            size="lg"
+            mr="2"
+          />
+          Events
+        </Text>
+      </Flex>
 
-        {cityId && <CityEvents cityId={cityId} />}
-      </Container>
-    </Layout>
+      {cityId && <CityEvents cityId={cityId} />}
+    </React.Fragment>
   );
 }
 

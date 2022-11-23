@@ -8,6 +8,7 @@ import Login from '../pages/login/login-view';
 import Settings from '../pages/settings/settings';
 import UnauthorizedPage from '../pages/unauthorized/unauthorized';
 import { auth } from './firebase';
+import Layout from './layout/layout';
 import { Loading } from './loading/loading';
 
 export default function App() {
@@ -46,5 +47,9 @@ function RequireAuth() {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
-  return <Outlet />;
+  return (
+    <Layout>
+      <Outlet />
+    </Layout>
+  );
 }

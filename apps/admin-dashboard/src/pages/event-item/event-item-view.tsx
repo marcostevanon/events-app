@@ -1,7 +1,7 @@
-import { Container, Flex, IconButton, Text } from '@chakra-ui/react';
+import { Flex, IconButton, Text } from '@chakra-ui/react';
+import React from 'react';
 import { MdOutlineKeyboardBackspace } from 'react-icons/md';
 import { useParams } from 'react-router-dom';
-import Layout from '../../app/layout/layout';
 import { Loading } from '../../app/loading/loading';
 import { useEventDetailController } from './event-item-controller';
 
@@ -11,13 +11,7 @@ export default function EventDetails() {
   const eventId = params['eventId'];
 
   if (!cityId || !eventId) {
-    return (
-      <Layout>
-        <Container maxW="container.lg">
-          <Loading />
-        </Container>
-      </Layout>
-    );
+    return <Loading />;
   }
 
   return <EventDetailsView cityId={cityId} eventId={eventId} />;
@@ -35,34 +29,26 @@ function EventDetailsView({ cityId, eventId }: EventsDetailsProps) {
   });
 
   if (isLoading || !event) {
-    return (
-      <Layout>
-        <Container maxW="container.lg">
-          <Loading />
-        </Container>
-      </Layout>
-    );
+    return <Loading />;
   }
 
   return (
-    <Layout>
-      <Container maxW="container.lg">
-        <Flex>
-          <Text fontSize="3xl" as="b" mb="5">
-            <IconButton
-              onClick={navigateBack}
-              icon={<MdOutlineKeyboardBackspace />}
-              variant="ghost"
-              aria-label="event detail"
-              size="lg"
-              mr="2"
-            />
-            {event.name}
-          </Text>
-        </Flex>
+    <React.Fragment>
+      <Flex>
+        <Text fontSize="3xl" as="b" mb="5">
+          <IconButton
+            onClick={navigateBack}
+            icon={<MdOutlineKeyboardBackspace />}
+            variant="ghost"
+            aria-label="event detail"
+            size="lg"
+            mr="2"
+          />
+          {event.name}
+        </Text>
+      </Flex>
 
-        {event.name}
-      </Container>
-    </Layout>
+      {event.name}
+    </React.Fragment>
   );
 }
