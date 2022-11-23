@@ -38,8 +38,4 @@ testem.log
 .DS_Store
 Thumbs.db
 
-# Next.js
-.next
-
-
 .emulators-data

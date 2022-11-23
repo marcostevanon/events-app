@@ -67,15 +67,20 @@
   "generators": {
     "@nrwl/react": {
       "application": {
-        "babel": true
-      }
-    },
-    "@nrwl/next": {
-      "application": {
         "style": "styled-components",
+        "unitTestRunner": "jest",
+        "linter": "eslint",
+        "babel": true
+      },
+      "component": {
+        "style": "styled-components"
+      },
+      "library": {
+        "style": "styled-components",
+        "unitTestRunner": "jest",
         "linter": "eslint"
       }
     }
   },
-  "defaultProject": "admin-dash"
+  "defaultProject": "admin-dashboard"
 }

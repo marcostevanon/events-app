@@ -5,6 +5,7 @@ export class City {
   cityName: string;
   telegramChatId: number;
   telegramChatLink: string;
+  status: CityStatus;
   eventsCollection?: Event[];
   subscriberCount?: number;
   createdAt: Date;
@@ -15,6 +16,7 @@ export class City {
     this.cityName = args.cityName;
     this.telegramChatId = args.telegramChatId;
     this.telegramChatLink = args.telegramChatLink;
+    this.status = args.status;
 
     const createAtDate = new Date(0);
     createAtDate.setUTCSeconds(args.createdAt.seconds);
@@ -29,3 +31,5 @@ export class City {
     this.subscriberCount = subscriberCount;
   }
 }
+
+type CityStatus = 'active' | 'not_active';
