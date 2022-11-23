@@ -35,7 +35,7 @@ function EventDetailsView({ cityId, eventId }: EventsDetailsProps) {
   return (
     <React.Fragment>
       <Flex>
-        <Text fontSize="3xl" as="b" mb="5">
+        <Text fontSize="3xl" as="b" mb="5" ml="1">
           <IconButton
             onClick={navigateBack}
             icon={<MdOutlineKeyboardBackspace />}

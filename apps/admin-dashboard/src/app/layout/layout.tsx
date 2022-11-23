@@ -66,8 +66,10 @@ function Layout(props: LayoutProps) {
         </DrawerContent>
       </Drawer>
       <MobileNav onOpen={onOpen} />
-      <Box ml={{ base: 0, md: 60 }} p="4">
-        <Container maxW="container.lg">{props.children}</Container>
+      <Box ml={{ base: 0, md: 60 }} py="4">
+        <Container maxW="container.lg" px={{ base: 0, md: 4 }}>
+          {props.children}
+        </Container>
       </Box>
     </Box>
   );
@@ -84,8 +86,11 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
   const navigate = useNavigate();
 
   const navigateToLink = React.useCallback(
-    (link: string) => navigate(link),
-    [navigate]
+    (link: string) => {
+      onClose();
+      navigate(link);
+    },
+    [navigate, onClose]
   );
 
   const colorModeText = useColorModeValue('Dark', 'Light');

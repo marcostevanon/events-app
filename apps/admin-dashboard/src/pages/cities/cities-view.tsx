@@ -24,7 +24,7 @@ export default function Cities() {
   return (
     <React.Fragment>
       <Flex>
-        <Text fontSize="3xl" as="b" mb="5">
+        <Text fontSize="3xl" as="b" mb="5" ml="5">
           Cities
         </Text>
       </Flex>
