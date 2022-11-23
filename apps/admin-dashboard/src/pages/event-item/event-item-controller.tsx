@@ -1,11 +1,11 @@
-import { EventItem, EventItemDto } from '@events-app/models';
+import { eventConverter, EventItem } from '@events-app/models';
 import { doc } from 'firebase/firestore';
 import React from 'react';
 import { useDocument } from 'react-firebase-hooks/firestore';
 import { useNavigate } from 'react-router-dom';
 import { db } from '../../app/firebase';
 
-interface EventDetailProps {
+interface EventDetailControllerProps {
   cityId: string;
   eventId: string;
 }
@@ -19,7 +19,7 @@ interface EventDetailHook {
 export const useEventDetailController = ({
   cityId,
   eventId,
-}: EventDetailProps): EventDetailHook => {
+}: EventDetailControllerProps): EventDetailHook => {
   const navigate = useNavigate();
 
   const [value, isLoading, error] = useDocument(
@@ -32,10 +32,10 @@ export const useEventDetailController = ({
   }, [error]);
 
   const event = React.useMemo(() => {
-    if (!value) {
+    if (!value?.exists()) {
       return undefined;
     }
-    const evtItem = new EventItem(value.data() as EventItemDto);
+    const evtItem = eventConverter.fromFirestore(value, {});
     evtItem.id = value.id;
     return evtItem;
   }, [value]);

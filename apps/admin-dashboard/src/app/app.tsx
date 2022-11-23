@@ -2,6 +2,7 @@ import { Text } from '@chakra-ui/react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom';
 import Cities from '../pages/cities/cities-view';
+import { EventAdd } from '../pages/event-add/event-add-view';
 import EventDetails from '../pages/event-item/event-item-view';
 import Events from '../pages/events/events-view';
 import Login from '../pages/login/login-view';
@@ -19,6 +20,7 @@ export default function App() {
       <Route path="/dashboard" element={<RequireAuth />}>
         <Route index element={<Navigate to="cities" />} />
         <Route path="cities" element={<Cities />} />
+        <Route path="cities/:cityId/new" element={<EventAdd />} />
         <Route path="cities/:cityId/events" element={<Events />} />
         <Route
           path="cities/:cityId/events/:eventId"
@@ -26,7 +28,7 @@ export default function App() {
         />
         <Route path="settings" element={<Settings />} />
       </Route>
-      <Route path="*" element={<Navigate to="/login" />} />
+      <Route path="*" element={<Navigate to="/dashboard" />} />
     </Routes>
   );
 }

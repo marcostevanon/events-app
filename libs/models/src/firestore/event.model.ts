@@ -1,3 +1,8 @@
+import {
+  DocumentData,
+  QueryDocumentSnapshot,
+  SnapshotOptions,
+} from 'firebase/firestore';
 import { EventItemDto } from '../admin';
 
 export class EventItem {
@@ -11,7 +16,7 @@ export class EventItem {
   createdAt: Date;
   updatedAt: Date;
 
-  constructor(args: EventItemDto) {
+  constructor(args: EventItem) {
     this.id = args.id;
     this.cityId = args.cityId;
     this.name = args.name;
@@ -19,13 +24,42 @@ export class EventItem {
     this.dateTime = args.dateTime;
     this.description = args.description;
     this.createdBy = args.createdBy;
-
-    const createAtDate = new Date(0);
-    createAtDate.setUTCSeconds(args.createdAt.seconds);
-    this.createdAt = createAtDate;
-
-    const updatedAtDate = new Date(0);
-    updatedAtDate.setUTCSeconds(args.updatedAt.seconds);
-    this.updatedAt = updatedAtDate;
+    this.createdAt = args.createdAt;
+    this.updatedAt = args.updatedAt;
   }
 }
+
+export const eventConverter = {
+  toFirestore(event: EventItem): DocumentData {
+    const returnData: Partial<EventItem> = {
+      cityId: event.cityId,
+      name: event.name,
+      organizer: event.organizer,
+      dateTime: event.dateTime,
+      description: event.description,
+      createdBy: event.createdBy,
+      createdAt: event.createdAt,
+      updatedAt: event.updatedAt,
+    };
+
+    return returnData as DocumentData;
+  },
+  fromFirestore(
+    snapshot: QueryDocumentSnapshot,
+    options: SnapshotOptions
+  ): EventItem {
+    const event = snapshot.data(options) as EventItemDto;
+
+    const createAtDate = new Date(0);
+    createAtDate.setUTCSeconds(event.createdAt.seconds);
+
+    const updatedAtDate = new Date(0);
+    updatedAtDate.setUTCSeconds(event.updatedAt.seconds);
+
+    return new EventItem({
+      ...event,
+      createdAt: createAtDate,
+      updatedAt: updatedAtDate,
+    });
+  },
+};

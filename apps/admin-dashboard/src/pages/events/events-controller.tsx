@@ -1,7 +1,7 @@
-import { EventItem, EventItemDto } from '@events-app/models';
-import { collection } from 'firebase/firestore';
+import { City, CityDto, eventConverter, EventItem } from '@events-app/models';
+import { collection, doc } from 'firebase/firestore';
 import React from 'react';
-import { useCollection } from 'react-firebase-hooks/firestore';
+import { useCollection, useDocument } from 'react-firebase-hooks/firestore';
 import { useNavigate } from 'react-router-dom';
 import { db } from '../../app/firebase';
 
@@ -17,14 +17,22 @@ interface NavigateToEventDetailProps {
 interface EventsHook {
   isLoading: boolean;
   events: EventItem[];
+  city?: City;
   navigateToEventDetail: (props: NavigateToEventDetailProps) => void;
+  navigateNewEvent: () => void;
+  navigateBack: () => void;
 }
 
 export const useEventsController = ({
   cityId,
 }: EventControllerProps): EventsHook => {
   const navigate = useNavigate();
-  const [value, isLoading, error] = useCollection(
+
+  const [cityValue, isCityLoading, cityError] = useDocument(
+    doc(db, 'cities', cityId)
+  );
+
+  const [eventsValue, isEventsLoading, eventsError] = useCollection(
     // query(
     collection(db, 'cities', cityId, 'events')
     // orderBy('timestamp', 'asc')
@@ -33,21 +41,32 @@ export const useEventsController = ({
 
   React.useEffect(() => {
     // TODO manage error
-    if (error) console.log('useCities ~ error', error);
-  }, [error]);
+    if (cityError) console.log('useCities ~ error', cityError);
+    if (eventsError) console.log('useCities ~ error', eventsError);
+  }, [eventsError, cityError]);
+
+  const city = React.useMemo(() => {
+    if (!cityValue) {
+      return undefined;
+    }
+
+    const city = new City(cityValue.data() as CityDto);
+    city.id = cityValue.id;
+    return city;
+  }, [cityValue]);
 
   const events: EventItem[] = React.useMemo(() => {
-    if (!value) {
+    if (!eventsValue) {
       return [];
     }
     const eventList: EventItem[] = [];
-    value.forEach((evt) => {
-      const event = new EventItem(evt.data() as EventItemDto);
+    eventsValue.forEach((evt) => {
+      const event = eventConverter.fromFirestore(evt, {});
       event.id = evt.id;
       eventList.push(event);
     });
     return eventList;
-  }, [value]);
+  }, [eventsValue]);
 
   const navigateToEventDetail = React.useCallback(
     ({ cityId, eventId }: NavigateToEventDetailProps) => {
@@ -56,19 +75,20 @@ export const useEventsController = ({
     [navigate]
   );
 
-  return { events, isLoading, navigateToEventDetail };
-};
-
-interface NavigateBackHook {
-  navigateBack: () => void;
-}
-
-export const useNavigateBackToCities = (): NavigateBackHook => {
-  const navigate = useNavigate();
+  const navigateNewEvent = React.useCallback(() => {
+    navigate(`/dashboard/cities/${cityId}/new`);
+  }, [cityId, navigate]);
 
   const navigateBack = React.useCallback(() => {
     navigate('/dashboard/cities');
   }, [navigate]);
 
-  return { navigateBack };
+  return {
+    city,
+    events,
+    isLoading: isCityLoading || isEventsLoading,
+    navigateToEventDetail,
+    navigateNewEvent,
+    navigateBack,
+  };
 };

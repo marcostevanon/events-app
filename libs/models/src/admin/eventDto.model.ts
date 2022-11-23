@@ -6,3 +6,11 @@ export interface EventItemDto
   createdAt: FirebaseDateTime;
   updatedAt: FirebaseDateTime;
 }
+
+export interface EventItemCreate
+  extends Omit<
+    EventItem,
+    'id' | 'cityId' | 'dateTime' | 'createdBy' | 'createdAt' | 'updatedAt'
+  > {
+  dateTime: Date;
+}
