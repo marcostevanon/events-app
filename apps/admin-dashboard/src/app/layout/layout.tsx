@@ -19,7 +19,7 @@ import {
   useDisclosure,
   VStack,
 } from '@chakra-ui/react';
-import React from 'react';
+import React, { memo } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { IconType } from 'react-icons';
 import { CgDarkMode } from 'react-icons/cg';
@@ -72,7 +72,7 @@ function Layout(props: LayoutProps) {
   );
 }
 
-export default Layout;
+export default memo(Layout);
 
 interface SidebarProps extends BoxProps {
   onClose: () => void;
