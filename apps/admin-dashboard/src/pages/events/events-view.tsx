@@ -77,6 +77,7 @@ function CityEvents({ cityId }: CityEventsProps) {
                     cityId,
                     eventId: event.id,
                   })}
+                  variant="outline"
                   icon={<CgEye />}
                   aria-label="event detail"
                 />
