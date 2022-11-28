@@ -12,6 +12,7 @@ export class EventItem {
   organizer: string;
   dateTime: Date;
   description: string;
+  externalLink: string;
   createdBy: string;
   createdAt: Date;
   updatedAt: Date;
@@ -23,6 +24,7 @@ export class EventItem {
     this.organizer = args.organizer;
     this.dateTime = args.dateTime;
     this.description = args.description;
+    this.externalLink = args.externalLink;
     this.createdBy = args.createdBy;
     this.createdAt = args.createdAt;
     this.updatedAt = args.updatedAt;
@@ -37,6 +39,7 @@ export const eventConverter = {
       organizer: event.organizer,
       dateTime: event.dateTime,
       description: event.description,
+      externalLink: event.externalLink,
       createdBy: event.createdBy,
       createdAt: event.createdAt,
       updatedAt: event.updatedAt,

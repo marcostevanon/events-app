@@ -47,14 +47,16 @@ function EventsView({ cityId }: EventsViewProps) {
   const events: (EventItem & { dateTimeFormatted: string })[] =
     React.useMemo(() => {
       return eventsRaw.map((evt) => {
-        const date = evt.dateTime.toLocaleString('en-UK', {
-          dateStyle: 'short',
-        });
-        const time = evt.dateTime.toLocaleString('en-UK', {
-          hour12: false,
-          timeStyle: 'short',
-        });
-        return { ...evt, dateTimeFormatted: `${date} ${time}` };
+        return {
+          ...evt,
+          dateTimeFormatted: evt.dateTime.toLocaleString('en-UK', {
+            day: '2-digit',
+            month: '2-digit',
+            year: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+          }),
+        };
       });
     }, [eventsRaw]);
 

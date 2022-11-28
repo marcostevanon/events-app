@@ -62,6 +62,7 @@ function EventAddView({ cityId }: EventAddViewProps) {
           organizer: '',
           dateTime: new Date(),
           description: '',
+          externalLink: '',
         }}
         onSubmit={(values: EventItemCreate, actions) => {
           createEvent(values).then(() => {

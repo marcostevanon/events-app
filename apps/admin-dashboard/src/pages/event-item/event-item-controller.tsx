@@ -1,4 +1,4 @@
-import { eventConverter, EventItem } from '@events-app/models';
+import { City, CityDto, eventConverter, EventItem } from '@events-app/models';
 import { doc } from 'firebase/firestore';
 import React from 'react';
 import { useDocument } from 'react-firebase-hooks/firestore';
@@ -13,6 +13,7 @@ interface EventDetailControllerProps {
 interface EventDetailHook {
   isLoading: boolean;
   event?: EventItem;
+  city?: City;
   navigateBack: () => void;
 }
 
@@ -22,27 +23,47 @@ export const useEventDetailController = ({
 }: EventDetailControllerProps): EventDetailHook => {
   const navigate = useNavigate();
 
-  const [value, isLoading, error] = useDocument(
+  const [cityValue, isCityLoading, cityError] = useDocument(
+    doc(db, 'cities', cityId)
+  );
+
+  const [eventsValue, isEventsLoading, eventsError] = useDocument(
     doc(db, 'cities', cityId, 'events', eventId)
   );
 
   React.useEffect(() => {
     // TODO manage error
-    if (error) console.log('useCities ~ error', error);
-  }, [error]);
+    if (cityError) console.log('useCities ~ error', cityError);
+    if (eventsError) console.log('useCities ~ error', eventsError);
+  }, [eventsError, cityError]);
 
-  const event = React.useMemo(() => {
-    if (!value?.exists()) {
+  const city = React.useMemo(() => {
+    if (!cityValue) {
       return undefined;
     }
-    const evtItem = eventConverter.fromFirestore(value, {});
-    evtItem.id = value.id;
+
+    const city = new City(cityValue.data() as CityDto);
+    city.id = cityValue.id;
+    return city;
+  }, [cityValue]);
+
+  const event = React.useMemo(() => {
+    if (!eventsValue?.exists()) {
+      return undefined;
+    }
+    const evtItem = eventConverter.fromFirestore(eventsValue, {});
+    evtItem.id = eventsValue.id;
     return evtItem;
-  }, [value]);
+  }, [eventsValue]);
 
   const navigateBack = React.useCallback(() => {
     navigate(`/dashboard/cities/${cityId}/events`, { replace: true });
   }, [cityId, navigate]);
 
-  return { isLoading, event, navigateBack };
+  return {
+    isLoading: isCityLoading || isEventsLoading,
+    event,
+    city,
+    navigateBack,
+  };
 };
