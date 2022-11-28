@@ -63,7 +63,7 @@ function EventDetailsView({ cityId, eventId }: EventsDetailsProps) {
         </Flex>
       </Flex>
 
-      <Center>
+      <Center px="2">
         <Card maxW="sm">
           <CardBody>
             {/* <Image src={event.imageLink} alt="Event image" borderRadius="lg" /> */}
