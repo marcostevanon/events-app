@@ -27,7 +27,7 @@ import { CgDarkMode } from 'react-icons/cg';
 import { FaCity } from 'react-icons/fa';
 import { FiLogOut, FiMenu, FiSettings } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
-import { auth, logout } from '../firebase';
+import { auth, logout } from '../../app/firebase';
 
 interface LinkItemProps {
   name: string;

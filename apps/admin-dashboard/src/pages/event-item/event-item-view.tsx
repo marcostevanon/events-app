@@ -2,7 +2,7 @@ import { Flex, IconButton, Text } from '@chakra-ui/react';
 import React from 'react';
 import { MdOutlineKeyboardBackspace } from 'react-icons/md';
 import { useParams } from 'react-router-dom';
-import { Loading } from '../../app/loading/loading';
+import { Loading } from '../../components/loading/loading';
 import { useEventDetailController } from './event-item-controller';
 
 export default function EventDetails() {

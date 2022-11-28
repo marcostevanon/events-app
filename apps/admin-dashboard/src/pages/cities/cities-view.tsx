@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 import { BiCalendarEvent } from 'react-icons/bi';
-import { Loading } from '../../app/loading/loading';
+import { Loading } from '../../components/loading/loading';
 import { useCities } from './cities-controller';
 
 export default function Cities() {

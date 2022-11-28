@@ -1,6 +1,8 @@
 import { Text } from '@chakra-ui/react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom';
+import Layout from '../components/layout/layout';
+import { Loading } from '../components/loading/loading';
 import Cities from '../pages/cities/cities-view';
 import { EventAdd } from '../pages/event-add/event-add-view';
 import EventDetails from '../pages/event-item/event-item-view';
@@ -9,8 +11,6 @@ import Login from '../pages/login/login-view';
 import Settings from '../pages/settings/settings';
 import UnauthorizedPage from '../pages/unauthorized/unauthorized';
 import { auth } from './firebase';
-import Layout from './layout/layout';
-import { Loading } from './loading/loading';
 
 export default function App() {
   return (

@@ -16,7 +16,7 @@ import { BiCalendarPlus } from 'react-icons/bi';
 import { CgEye } from 'react-icons/cg';
 import { MdOutlineKeyboardBackspace } from 'react-icons/md';
 import { useParams } from 'react-router-dom';
-import { Loading } from '../../app/loading/loading';
+import { Loading } from '../../components/loading/loading';
 import { useEventsController } from './events-controller';
 
 export default function Events() {

@@ -1,6 +1,6 @@
 import { Box, Button, Text } from '@chakra-ui/react';
 import { FcGoogle } from 'react-icons/fc';
-import { Loading } from '../../app/loading/loading';
+import { Loading } from '../../components/loading/loading';
 import { useLoginController } from './login-controller';
 
 export default function Login() {

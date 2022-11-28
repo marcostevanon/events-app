@@ -13,7 +13,7 @@ import { Field, Form, Formik } from 'formik';
 import React from 'react';
 import { MdOutlineKeyboardBackspace } from 'react-icons/md';
 import { useParams } from 'react-router-dom';
-import { Loading } from '../../app/loading/loading';
+import { Loading } from '../../components/loading/loading';
 import { useEventAddController } from './event-add-controller';
 
 export const EventAdd = () => {
