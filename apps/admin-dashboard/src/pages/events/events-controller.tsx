@@ -80,7 +80,7 @@ export const useEventsController = ({
   }, [cityId, navigate]);
 
   const navigateBack = React.useCallback(() => {
-    navigate('/dashboard/cities');
+    navigate('/dashboard/cities', { replace: true });
   }, [navigate]);
 
   return {

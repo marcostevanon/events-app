@@ -67,7 +67,7 @@ export const useEventAddController = ({
   );
 
   const navigateBack = React.useCallback(() => {
-    navigate(`/dashboard/cities/${cityId}/events`);
+    navigate(`/dashboard/cities/${cityId}/events`, { replace: true });
   }, [cityId, navigate]);
 
   return { city, isLoading, createEvent, navigateBack };

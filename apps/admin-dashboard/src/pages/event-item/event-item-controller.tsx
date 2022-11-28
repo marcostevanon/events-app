@@ -41,7 +41,7 @@ export const useEventDetailController = ({
   }, [value]);
 
   const navigateBack = React.useCallback(() => {
-    navigate(`/dashboard/cities/${cityId}/events`);
+    navigate(`/dashboard/cities/${cityId}/events`, { replace: true });
   }, [cityId, navigate]);
 
   return { isLoading, event, navigateBack };
