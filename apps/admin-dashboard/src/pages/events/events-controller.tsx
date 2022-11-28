@@ -1,5 +1,5 @@
 import { City, CityDto, eventConverter, EventItem } from '@events-app/models';
-import { collection, doc } from 'firebase/firestore';
+import { collection, doc, orderBy, query, where } from 'firebase/firestore';
 import React from 'react';
 import { useCollection, useDocument } from 'react-firebase-hooks/firestore';
 import { useNavigate } from 'react-router-dom';
@@ -33,10 +33,11 @@ export const useEventsController = ({
   );
 
   const [eventsValue, isEventsLoading, eventsError] = useCollection(
-    // query(
-    collection(db, 'cities', cityId, 'events')
-    // orderBy('timestamp', 'asc')
-    // )
+    query(
+      collection(db, 'cities', cityId, 'events'),
+      where('dateTime', '>=', new Date(new Date().setHours(0, 0, 0, 0))),
+      orderBy('dateTime', 'asc')
+    )
   );
 
   React.useEffect(() => {

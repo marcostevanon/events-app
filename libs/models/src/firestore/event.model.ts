@@ -50,6 +50,9 @@ export const eventConverter = {
   ): EventItem {
     const event = snapshot.data(options) as EventItemDto;
 
+    const dateTimeDate = new Date(0);
+    dateTimeDate.setUTCSeconds(event.dateTime.seconds);
+
     const createAtDate = new Date(0);
     createAtDate.setUTCSeconds(event.createdAt.seconds);
 
@@ -58,6 +61,7 @@ export const eventConverter = {
 
     return new EventItem({
       ...event,
+      dateTime: dateTimeDate,
       createdAt: createAtDate,
       updatedAt: updatedAtDate,
     });

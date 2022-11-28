@@ -59,7 +59,6 @@ function Layout(props: LayoutProps) {
         onClose={onClose}
         returnFocusOnClose={false}
         onOverlayClick={onClose}
-        size="full"
       >
         <DrawerContent>
           <SidebarContent onClose={onClose} />
@@ -67,7 +66,7 @@ function Layout(props: LayoutProps) {
       </Drawer>
       <MobileNav onOpen={onOpen} />
       <Box ml={{ base: 0, md: 60 }} py="4">
-        <Container maxW="container.lg" px={{ base: 0, md: 4 }}>
+        <Container maxW="container.md" px={{ base: 0, md: 4 }}>
           {props.children}
         </Container>
       </Box>
