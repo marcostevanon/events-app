@@ -11,20 +11,22 @@ import { useDocument } from 'react-firebase-hooks/firestore';
 import { useNavigate } from 'react-router-dom';
 import { db } from '../../app/firebase';
 
-interface EventAddControllerProps {
+interface EventEditControllerProps {
   cityId: string;
+  eventId: string;
 }
 
-interface EventAddHook {
+interface EventEditHook {
   isLoading: boolean;
   city?: City;
   createEvent: (event: EventItemCreate) => Promise<void>;
   navigateBack: () => void;
 }
 
-export const useEventAddController = ({
+export const useEventEditController = ({
   cityId,
-}: EventAddControllerProps): EventAddHook => {
+  eventId,
+}: EventEditControllerProps): EventEditHook => {
   const navigate = useNavigate();
 
   const [cityValue, isLoading, error] = useDocument(doc(db, 'cities', cityId));

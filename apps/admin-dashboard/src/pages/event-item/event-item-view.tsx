@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 import { BiLinkExternal } from 'react-icons/bi';
-import { MdOutlineKeyboardBackspace } from 'react-icons/md';
+import { MdModeEdit, MdOutlineKeyboardBackspace } from 'react-icons/md';
 import { useParams } from 'react-router-dom';
 import { Loading } from '../../components/loading/loading';
 import { useEventDetailController } from './event-item-controller';
@@ -35,10 +35,8 @@ interface EventsDetailsProps {
 }
 
 function EventDetailsView({ cityId, eventId }: EventsDetailsProps) {
-  const { isLoading, event, city, navigateBack } = useEventDetailController({
-    cityId,
-    eventId,
-  });
+  const { isLoading, event, city, editEvent, navigateBack } =
+    useEventDetailController({ cityId, eventId });
 
   if (isLoading || !event || !city) {
     return <Loading />;
@@ -57,9 +55,7 @@ function EventDetailsView({ cityId, eventId }: EventsDetailsProps) {
         />
         <Flex flexDirection="column">
           <Text fontSize="3xl">{event.name}</Text>
-          <Text fontSize="sm">
-            {event.organizer} | {city.cityName}
-          </Text>
+          <Text fontSize="sm">{city.cityName}</Text>
         </Flex>
       </Flex>
 
@@ -68,9 +64,22 @@ function EventDetailsView({ cityId, eventId }: EventsDetailsProps) {
           <CardBody>
             {/* <Image src={event.imageLink} alt="Event image" borderRadius="lg" /> */}
             <Flex justifyContent="space-between">
-              <Flex flexDirection="column">
-                <Text fontSize="2xl">{event.name}</Text>
-                <Text fontSize="sm">{event.organizer}</Text>
+              <Flex>
+                <IconButton
+                  onClick={editEvent}
+                  icon={<MdModeEdit />}
+                  variant="outline"
+                  aria-label="event detail"
+                  size="sm"
+                  mr="3"
+                  mt="1"
+                />
+                <Flex flexDirection="column">
+                  <Text fontSize="2xl">{event.name}</Text>
+                  <Text fontSize="sm" as="u">
+                    {event.organizer}
+                  </Text>
+                </Flex>
               </Flex>
               <Flex flexDirection="column" alignItems="flex-end" minW="30%">
                 <Text fontSize="sm">
@@ -127,7 +136,7 @@ function EventDetailsView({ cityId, eventId }: EventsDetailsProps) {
                 <Link href={event.externalLink} target="_blank">
                   <Flex gap="2" alignItems="center">
                     <BiLinkExternal aria-label="open external event link" />
-                    <Text>Source: {new URL(event.externalLink).host}</Text>
+                    <Text>{new URL(event.externalLink).host}</Text>
                   </Flex>
                 </Link>
               </CardFooter>

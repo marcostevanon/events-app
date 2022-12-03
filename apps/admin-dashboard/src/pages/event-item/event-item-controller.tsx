@@ -14,6 +14,7 @@ interface EventDetailHook {
   isLoading: boolean;
   event?: EventItem;
   city?: City;
+  editEvent: () => void;
   navigateBack: () => void;
 }
 
@@ -56,6 +57,10 @@ export const useEventDetailController = ({
     return evtItem;
   }, [eventsValue]);
 
+  const editEvent = React.useCallback(() => {
+    navigate(`/dashboard/cities/${cityId}/events/${eventId}/edit`);
+  }, [cityId, eventId, navigate]);
+
   const navigateBack = React.useCallback(() => {
     navigate(`/dashboard/cities/${cityId}/events`, { replace: true });
   }, [cityId, navigate]);
@@ -64,6 +69,7 @@ export const useEventDetailController = ({
     isLoading: isCityLoading || isEventsLoading,
     event,
     city,
+    editEvent,
     navigateBack,
   };
 };
