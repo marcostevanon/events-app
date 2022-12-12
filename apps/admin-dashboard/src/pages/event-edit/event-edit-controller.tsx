@@ -25,7 +25,7 @@ interface EventEditHook {
 
 export const useEventEditController = ({
   cityId,
-  eventId,
+  eventId, //todo
 }: EventEditControllerProps): EventEditHook => {
   const navigate = useNavigate();
 
@@ -49,11 +49,19 @@ export const useEventEditController = ({
   const createEvent = React.useCallback(
     async (event: EventItemCreate) => {
       console.log('event', event);
+      const dateTime = new Date(
+        new Date(event.date).setHours(
+          event.time.getHours(),
+          event.time.getMinutes(),
+          event.time.getSeconds()
+        )
+      );
       const now = new Date();
       const newEvent = new EventItem({
         ...event,
-        id: '', // TODO firebase should create it
+        id: '', // created by firebase
         cityId: cityId,
+        dateTime,
         createdAt: now,
         updatedAt: now,
         // TODO update createdBy

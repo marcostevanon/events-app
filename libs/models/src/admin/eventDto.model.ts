@@ -13,5 +13,6 @@ export interface EventItemCreate
     EventItem,
     'id' | 'cityId' | 'dateTime' | 'createdBy' | 'createdAt' | 'updatedAt'
   > {
-  dateTime: Date;
+  date: Date;
+  time: Date;
 }

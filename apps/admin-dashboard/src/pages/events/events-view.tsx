@@ -1,5 +1,6 @@
 import {
   Button,
+  Center,
   Flex,
   IconButton,
   Table,
@@ -98,36 +99,44 @@ function EventsView({ cityId }: EventsViewProps) {
         </Button>
       </Flex>
 
-      <Table variant="simple" size="sm">
-        <Thead>
-          <Tr>
-            <Th></Th>
-            <Th>Event Name</Th>
-            <Th>Organizer</Th>
-            <Th>Date Time</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {events.map((event) => (
-            <Tr key={event.id}>
-              <Td py="0">
-                <IconButton
-                  onClick={navigateToEventDetail.bind(null, {
-                    cityId,
-                    eventId: event.id,
-                  })}
-                  variant="ghost"
-                  icon={<CgEye />}
-                  aria-label="event detail"
-                />
-              </Td>
-              <Td>{event.name}</Td>
-              <Td>{event.organizer}</Td>
-              <Td>{event.dateTimeFormatted}</Td>
+      {events.length === 0 && (
+        <Center>
+          <Text fontSize="xl">No events available</Text>
+        </Center>
+      )}
+
+      {events.length > 0 && (
+        <Table variant="simple" size="sm">
+          <Thead>
+            <Tr>
+              <Th></Th>
+              <Th>Event Name</Th>
+              <Th>Organizer</Th>
+              <Th>Date Time</Th>
             </Tr>
-          ))}
-        </Tbody>
-      </Table>
+          </Thead>
+          <Tbody>
+            {events.map((event) => (
+              <Tr key={event.id}>
+                <Td py="0">
+                  <IconButton
+                    onClick={navigateToEventDetail.bind(null, {
+                      cityId,
+                      eventId: event.id,
+                    })}
+                    variant="ghost"
+                    icon={<CgEye />}
+                    aria-label="event detail"
+                  />
+                </Td>
+                <Td>{event.name}</Td>
+                <Td>{event.organizer}</Td>
+                <Td>{event.dateTimeFormatted}</Td>
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+      )}
     </React.Fragment>
   );
 }

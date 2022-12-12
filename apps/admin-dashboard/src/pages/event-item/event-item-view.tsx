@@ -9,6 +9,7 @@ import {
   Link,
   Stack,
   Text,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import React from 'react';
 import { BiLinkExternal } from 'react-icons/bi';
@@ -35,6 +36,8 @@ interface EventsDetailsProps {
 }
 
 function EventDetailsView({ cityId, eventId }: EventsDetailsProps) {
+  const cardBackgroundColor = useColorModeValue('#FAFAFA', 'gray.700');
+
   const { isLoading, event, city, editEvent, navigateBack } =
     useEventDetailController({ cityId, eventId });
 
@@ -60,7 +63,7 @@ function EventDetailsView({ cityId, eventId }: EventsDetailsProps) {
       </Flex>
 
       <Center px="2">
-        <Card maxW="sm">
+        <Card maxW="sm" bg={cardBackgroundColor}>
           <CardBody>
             {/* <Image src={event.imageLink} alt="Event image" borderRadius="lg" /> */}
             <Flex justifyContent="space-between">

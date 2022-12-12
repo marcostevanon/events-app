@@ -56,12 +56,19 @@ export const useEventAddController = ({
         throw new Error('Authentication error - No user or email provided');
       }
 
-      console.log('rawEvent', event);
+      const dateTime = new Date(
+        new Date(event.date).setHours(
+          event.time.getHours(),
+          event.time.getMinutes(),
+          event.time.getSeconds()
+        )
+      );
       const now = new Date();
       const newEvent = new EventItem({
         ...event,
         id: '',
         cityId: cityId,
+        dateTime,
         createdAt: now,
         updatedAt: now,
         createdBy: user.email,
