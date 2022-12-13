@@ -11,8 +11,12 @@ export interface EventItemDto
 export interface EventItemCreate
   extends Omit<
     EventItem,
-    'id' | 'cityId' | 'dateTime' | 'createdBy' | 'createdAt' | 'updatedAt'
+    'id' | 'dateTime' | 'createdBy' | 'createdAt' | 'updatedAt'
   > {
+  id?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  createdBy?: string;
   date: Date;
   time: Date;
 }

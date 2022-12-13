@@ -5,36 +5,51 @@ import {
   EventItem,
   EventItemCreate,
 } from '@events-app/models';
-import { addDoc, collection, doc } from 'firebase/firestore';
+import { addDoc, collection, doc, getDoc, updateDoc } from 'firebase/firestore';
 import React from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import { useDocument } from 'react-firebase-hooks/firestore';
 import { useNavigate } from 'react-router-dom';
-import { db } from '../../app/firebase';
+import { auth, db, logout } from '../../app/firebase';
 
-interface EventEditControllerProps {
+interface EventAddControllerProps {
   cityId: string;
-  eventId: string;
+  eventId?: string;
 }
 
 interface EventEditHook {
   isLoading: boolean;
   city?: City;
+  event?: EventItem;
   createEvent: (event: EventItemCreate) => Promise<void>;
   navigateBack: () => void;
 }
 
 export const useEventEditController = ({
   cityId,
-  eventId, //todo
-}: EventEditControllerProps): EventEditHook => {
+  eventId,
+}: EventAddControllerProps): EventEditHook => {
   const navigate = useNavigate();
 
-  const [cityValue, isLoading, error] = useDocument(doc(db, 'cities', cityId));
+  const [user, isAuthloading, errorAuth] = useAuthState(auth);
+
+  const [cityValue, isCityLoading, errorCity] = useDocument(
+    doc(db, 'cities', cityId)
+  );
+
+  const [{ eventValue, isEventLoading, errorEvent }, setEvent] =
+    React.useState<{
+      eventValue?: EventItem;
+      isEventLoading: boolean;
+      errorEvent?: string;
+    }>({ isEventLoading: false });
 
   React.useEffect(() => {
     // TODO manage error
-    if (error) console.log('useCities ~ error', error);
-  }, [error]);
+    if (errorAuth) console.log('useCities ~ errorAuth', errorAuth);
+    if (errorCity) console.log('useCities ~ cityError', errorCity);
+    if (errorEvent) console.log('useCities ~ errorEvent', errorEvent);
+  }, [errorAuth, errorCity, errorEvent]);
 
   const city = React.useMemo(() => {
     if (!cityValue) {
@@ -46,9 +61,53 @@ export const useEventEditController = ({
     return city;
   }, [cityValue]);
 
+  const getEvent = React.useCallback(
+    async (eventId: string) => {
+      try {
+        setEvent({ isEventLoading: true });
+
+        const docRef = doc(db, 'cities', cityId, 'events', eventId);
+        const eventValue = await getDoc(docRef);
+
+        if (!eventValue?.exists()) {
+          return setEvent({
+            eventValue: undefined,
+            isEventLoading: false,
+          });
+        }
+        const evtItem = eventConverter.fromFirestore(eventValue, {});
+        evtItem.id = eventValue.id;
+        setEvent({
+          eventValue: evtItem,
+          isEventLoading: false,
+        });
+      } catch (err) {
+        console.log('error', err);
+        setEvent({
+          eventValue: undefined,
+          isEventLoading: false,
+          errorEvent: err as string,
+        });
+      }
+    },
+    [cityId]
+  );
+
+  React.useEffect(() => {
+    if (!eventId) {
+      return;
+    }
+
+    getEvent(eventId);
+  }, [cityId, eventId, getEvent]);
+
   const createEvent = React.useCallback(
     async (event: EventItemCreate) => {
-      console.log('event', event);
+      if (!user || !user.email) {
+        logout();
+        throw new Error('Authentication error - No user or email provided');
+      }
+
       const dateTime = new Date(
         new Date(event.date).setHours(
           event.time.getHours(),
@@ -59,26 +118,40 @@ export const useEventEditController = ({
       const now = new Date();
       const newEvent = new EventItem({
         ...event,
-        id: '', // created by firebase
-        cityId: cityId,
+        id: event.id ? event.id : '',
+        cityId,
         dateTime,
-        createdAt: now,
+        createdAt: event.id && event.createdAt ? event.createdAt : now,
         updatedAt: now,
-        // TODO update createdBy
-        createdBy: 'me',
+        createdBy: event.id && event.createdBy ? event.createdBy : user.email,
       });
-      console.log('event', newEvent);
-      await addDoc(
-        collection(db, 'cities', cityId, 'events'),
-        eventConverter.toFirestore(newEvent)
-      );
+
+      if (event.id) {
+        // update
+        await updateDoc(
+          doc(db, 'cities', cityId, 'events', event.id),
+          eventConverter.toFirestore(newEvent)
+        );
+      } else {
+        // create
+        await addDoc(
+          collection(db, 'cities', cityId, 'events'),
+          eventConverter.toFirestore(newEvent)
+        );
+      }
     },
-    [cityId]
+    [cityId, user]
   );
 
   const navigateBack = React.useCallback(() => {
     navigate(`/dashboard/cities/${cityId}/events`, { replace: true });
   }, [cityId, navigate]);
 
-  return { city, isLoading, createEvent, navigateBack };
+  return {
+    city,
+    event: eventValue,
+    isLoading: isAuthloading || isCityLoading || isEventLoading,
+    createEvent,
+    navigateBack,
+  };
 };

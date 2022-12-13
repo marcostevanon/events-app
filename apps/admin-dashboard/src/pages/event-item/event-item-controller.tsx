@@ -12,8 +12,8 @@ interface EventDetailControllerProps {
 
 interface EventDetailHook {
   isLoading: boolean;
-  event?: EventItem;
   city?: City;
+  event?: EventItem;
   editEvent: () => void;
   navigateBack: () => void;
 }
@@ -24,7 +24,7 @@ export const useEventDetailController = ({
 }: EventDetailControllerProps): EventDetailHook => {
   const navigate = useNavigate();
 
-  const [cityValue, isCityLoading, cityError] = useDocument(
+  const [cityValue, isCityLoading, errorCity] = useDocument(
     doc(db, 'cities', cityId)
   );
 
@@ -34,9 +34,9 @@ export const useEventDetailController = ({
 
   React.useEffect(() => {
     // TODO manage error
-    if (cityError) console.log('useCities ~ error', cityError);
-    if (eventsError) console.log('useCities ~ error', eventsError);
-  }, [eventsError, cityError]);
+    if (errorCity) console.log('useCities ~ errorCity', errorCity);
+    if (eventsError) console.log('useCities ~ eventsError', eventsError);
+  }, [eventsError, errorCity]);
 
   const city = React.useMemo(() => {
     if (!cityValue) {
