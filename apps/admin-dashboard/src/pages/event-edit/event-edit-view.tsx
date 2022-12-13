@@ -199,7 +199,7 @@ function EventEditForm({ cityId, eventId }: EventAddViewProps) {
                       render={({ field }) => (
                         <DatePicker
                           onChange={(date) => field.onChange(date?.toDate())}
-                          defaultValue={dayjs(field.value)}
+                          value={dayjs(field.value)}
                         />
                       )}
                     />
@@ -215,7 +215,7 @@ function EventEditForm({ cityId, eventId }: EventAddViewProps) {
                       render={({ field }) => (
                         <TimePicker
                           onChange={(time) => field.onChange(time?.toDate())}
-                          defaultValue={dayjs(field.value)}
+                          value={dayjs(field.value)}
                         />
                       )}
                     />
